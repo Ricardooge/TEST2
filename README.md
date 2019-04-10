@@ -1,7 +1,7 @@
 # TEST2
 nodejs pagination using jquery and mysql database
 
-login and register function 
+login and register function with session and md5 encrypt
 
 Added ilance_category Table to original datebase, 
 and modified some data from ilance_project table
