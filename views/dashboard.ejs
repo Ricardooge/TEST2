@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+    <title>TEST</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/stylesheets/pagination.css">
+    <style>
+        body 		{ padding-top:80px; word-wrap:break-word; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+        <h1><span class="fa fa-align-justify"></span> Project Information</h1>
+        <a href="/dashboard/logout" class="btn btn-default btn-sm">Logout</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">select to get data
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu" id = "selectOption">
+                    <li id="recentProject"><a>Recent Projects</a></li>
+                    <li id="usernameAsc"><a>Order By Username Asc</a></li>
+                    <li id="ptitleAsc"><a>Order By Project Title Asc</a></li>
+                    <li id="cnameAsc"><a>Order By Category Name ASC</a></li>
+                </ul>
+            </div>
+            <br>
+        </div>
+        <div id="data-container"></div>
+
+        <div id="pagination-container"></div>
+    </div>
+
+
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="/javascripts/pagination.js" ></script>
+<script type="text/javascript">
+    var sortBy = 'recentProject';
+    $.ajax({
+        type: 'GET',
+        url: '/dashboard/data',
+        dataType:"json",
+        data : {
+            sortBy:sortBy,
+        },
+        success: function(resData) {
+            $('#pagination-container').pagination({
+                dataSource:resData,
+                pageSize: 2,
+
+                callback: function(data, pagination) {
+                    var html = template(data);
+                    $('#data-container').html(html);
+                }
+            })
+        }
+    })
+
+    $("#selectOption li").click(function () {
+        sortBy = $(this).attr('id');
+        console.log(sortBy);
+
+        $.ajax({
+            type: 'GET',
+            url: '/dashboard/data',
+            dataType:"json",
+            data : {
+                sortBy:sortBy,
+            },
+            success: function(resData) {
+                $('#pagination-container').pagination({
+                    dataSource:resData,
+                    pageSize: 2,
+
+                    callback: function(data, pagination) {
+                        var html = template(data);
+
+                        $('#data-container').html(html);
+                    }
+                })
+            }
+        })
+    })
+
+
+
+
+    function template(data) {
+        var html = '<table class="table table-striped"><thead><tr><th>Project Title</th><th>Username</th><th>Categoryname</th></tr></thead><tbody>';
+        $.each(data, function(index, item){
+            html += '<tr><td>'+ item.project_title +'</td>';
+            html += '<td>'+ item.username +'</td>';
+            html += '<td>'+ item.categoryname + '</td></tr>'
+        });
+        html += '</tbody></table>';
+        return html;
+    }
+
+</script>
+</body>
+</html>
