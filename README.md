@@ -1,5 +1,7 @@
 # TEST2
-Test for developscripts interview
+nodejs pagination using jquery and mysql database
+
+login and register function 
 
 Added ilance_category Table to original datebase, 
 and modified some data from ilance_project table
