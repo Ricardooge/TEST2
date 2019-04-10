@@ -1,12 +1,12 @@
 # TEST2
 Test for developscripts interview
 
-Added ilance_category Table to original datebase
-modified some data from ilance_project table
+Added ilance_category Table to original datebase, 
+and modified some data from ilance_project table
 
 add test account to ilance_user table
 
-steps to run
+Steps to run
 
 1) use 'npm start' to run the project
 2) open the browser and enter the url "localhost:3000/"
